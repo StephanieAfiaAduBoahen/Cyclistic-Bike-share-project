@@ -19,4 +19,3 @@ R Studio and Tableau
 2. On weekends, both casual riders and members typically ride for longer periods of time.
 3. Casual rider’s duration on bikes is greater than members.
 4. Compared to casual riders, members typically use more types of bikes, including electric, docked, and classic bikes. Casual riders prefer electric bikes to classic bikes.
-![image](https://github.com/StephanieAfiaAduBoahen/Cyclistic-Bike-share-project/assets/158788793/2af81b74-379e-43d5-a205-7c4f74d2aef6)
