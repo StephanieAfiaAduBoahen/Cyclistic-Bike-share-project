@@ -17,8 +17,7 @@ R Studio and Tableau
 # Observation and conclusion:
 1. Members total number of rides during the week is more than casual users. 
 2. On weekends, both casual riders and members typically ride for longer periods of time.
-3. Casual rider’s duration on bikes is greater than members.
-4. Compared to casual riders, members typically use more types of bikes, including electric, docked, and classic bikes. Casual riders prefer electric bikes to classic bikes.
+3. Compared to casual riders, members typically use more types of bikes, including electric, docked, and classic bikes. Casual riders prefer electric bikes to classic bikes.
 
 # Recommendations
 1.	Since casual members average duration on bikes is higher, increase the rate for longer duration and introduce membership plans that makes riding longer duration appealing to casual riders.
