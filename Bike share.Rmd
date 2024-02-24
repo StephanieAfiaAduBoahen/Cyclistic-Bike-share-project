@@ -1,0 +1,131 @@
+---
+title: "Bike Share"
+output:
+  html_document: default
+  pdf_document: default
+date: "2024-02-23"
+---
+
+###Install Packages
+```{r}
+library(tidyverse)
+library(conflicted)
+```
+
+###Combined all 3 months and view
+tripdata_jan23_mar23 <- rbind(X202301_divvy_tripdata, X202302_divvy_tripdata, X202303_divvy_tripdata)
+
+
+###View combined data
+
+View(tripdata_jan23_mar23)
+
+###View column names
+colnames(tripdata_jan23_mar23)
+
+
+###Remove columns we wont use
+tripdata_jan23_mar23 <- tripdata_jan23_mar23 %>%
+  select(-c(start_station_name, start_station_id, end_station_name, end_station_id, start_lat, start_lng, end_lat, end_lng,))
+
+###View data 
+
+View(tripdata_jan23_mar23)
+
+###Review new table
+```{r}
+colnames(tripdata_jan23_mar23)
+nrow(tripdata_jan23_mar23)
+head(tripdata_jan23_mar23)
+str(tripdata_jan23_mar23)
+```
+###New colums for date, month, day and year
+```{r}
+tripdata_jan23_mar23$date <- as.Date(tripdata_jan23_mar23$started_at) 
+tripdata_jan23_mar23$month <- format(as.Date(tripdata_jan23_mar23$date), "%m")
+tripdata_jan23_mar23$day <- format(as.Date(tripdata_jan23_mar23$date), "%d")
+tripdata_jan23_mar23$year <- format(as.Date(tripdata_jan23_mar23$date), "%Y")
+tripdata_jan23_mar23$day_of_week <- format(as.Date(tripdata_jan23_mar23$date), "%A")
+```
+###Add ride_length
+```{r}
+tripdata_jan23_mar23$ride_length <- difftime(tripdata_jan23_mar23$ended_at,tripdata_jan23_mar23$started_at)
+```
+
+###View data types
+```{r}
+str(tripdata_jan23_mar23)
+```
+###Convert ride_length
+```{r}
+is.factor(tripdata_jan23_mar23$ride_length)
+tripdata_jan23_mar23$ride_length <- as.numeric(as.character(tripdata_jan23_mar23$ride_length))
+is.numeric(tripdata_jan23_mar23$ride_length)
+```
+
+###Compare members and casual users
+```{r}
+aggregate(tripdata_jan23_mar23$ride_length ~ tripdata_jan23_mar23$member_casual, FUN = mean)
+aggregate(tripdata_jan23_mar23$ride_length ~ tripdata_jan23_mar23$member_casual, FUN = median)
+aggregate(tripdata_jan23_mar23$ride_length ~ tripdata_jan23_mar23$member_casual, FUN = max)
+aggregate(tripdata_jan23_mar23$ride_length ~ tripdata_jan23_mar23$member_casual, FUN = min)
+```
+###the average ride time by each day for members vs casual users
+```{r}
+aggregate(tripdata_jan23_mar23$ride_length ~ tripdata_jan23_mar23$member_casual + tripdata_jan23_mar23$day_of_week, FUN = mean)
+```
+###Arrange days of week
+```{r}
+tripdata_jan23_mar23$day_of_week <- ordered(tripdata_jan23_mar23$day_of_week, levels=c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"))
+```
+
+###Run again
+```{r}
+aggregate(tripdata_jan23_mar23$ride_length ~ tripdata_jan23_mar23$member_casual + tripdata_jan23_mar23$day_of_week, FUN = mean)
+```
+###analyze ridership data by type and weekday
+```{r}
+tripdata_jan23_mar23 %>% 
+  mutate(weekday = wday(started_at, label = TRUE)) %>%  
+  group_by(member_casual, weekday) %>%
+  summarise(number_of_rides = n()							
+            ,average_duration = mean(ride_length)) %>% 		
+  arrange(member_casual, weekday)	
+```
+###Visualize the number of rides by rider type
+```{r}
+tripdata_jan23_mar23 %>% 
+  mutate(weekday = wday(started_at, label = TRUE)) %>% 
+  group_by(member_casual, weekday) %>% 
+  summarise(number_of_rides = n()
+            ,average_duration = mean(ride_length)) %>% 
+  arrange(member_casual, weekday)  %>% 
+  ggplot(aes(x = weekday, y = number_of_rides, fill = member_casual)) +
+  geom_col(position = "dodge")
+```
+###Visualization for average duration
+```{r}
+tripdata_jan23_mar23 %>% 
+  mutate(weekday = wday(started_at, label = TRUE)) %>% 
+  group_by(member_casual, weekday) %>% 
+  summarise(number_of_rides = n()
+            ,average_duration = mean(ride_length)) %>% 
+  arrange(member_casual, weekday)  %>% 
+  ggplot(aes(x = weekday, y = average_duration, fill = member_casual)) +
+  geom_col(position = "dodge")
+```
+
+###Bikes rented
+```{r}
+tripdata_jan23_mar23 %>% 
+  ggplot(aes(x = rideable_type, fill = member_casual)) + geom_bar(position = "dodge") +
+  labs(x = "Type of bike", y = "Number of rentals", title = "Rented bikes", fill = "Type of membership")
+```
+
+
+
+
+
+
+
+
