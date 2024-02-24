@@ -21,7 +21,6 @@ R Studio and Tableau
 4. Compared to casual riders, members typically use more types of bikes, including electric, docked, and classic bikes. Casual riders prefer electric bikes to classic bikes.
 
 # Recommendations
-1.	Since casual members average duration on bikes to more, increase the rate for longer duration and introduce membership plans that makes riding longer duration appealing to casual riders.
+1.	Since casual members average duration on bikes is higher, increase the rate for longer duration and introduce membership plans that makes riding longer duration appealing to casual riders.
 2.	Create a new membership plan where electric bikes are more accessible and affordable to members.
 3.	Advertise discounts for first 3 months of sign up. 
-![image](https://19842f9fabbd4415b8985876266716d6.app.posit.cloud/file_show?path=%2Fcloud%2Fproject%2FNumber+of+riders.png)
